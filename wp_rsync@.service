@@ -1,0 +1,13 @@
+[Unit]
+Description=Calls Rsync to backup host in %I
+
+[Service]
+Type=oneshot
+Environment=REMOTE_HOST=user@remotehost
+Environment=REMOTE_BASEPATH=/home/user/backups
+Environment=SSH_SPEC=ssh
+ExecStartPre=/bin/bash -c 'sleep 60 && for sqlfile in `ls /var/www/vhosts/%I/wp-content/db_backup/*.sql` ; do gzip -9 $sqlfile ; done'
+ExecStartPre=/bin/bash -c 'systemctl set-environment LPATH_wp=`echo %I | sed -e "s@/cms@@;"`'
+ExecStart=/bin/bash -c 'rsync -e "${SSH_SPEC}" -rltvzD --delete-during /var/www/vhosts/${LPATH_wp}/ ${REMOTE_HOST}:${REMOTE_BASEPATH}/${LPATH_wp}'
+ExecStop=/bin/bash -c 'systemctl unset-environment LPATH_wp'
+
