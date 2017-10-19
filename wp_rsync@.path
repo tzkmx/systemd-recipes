@@ -1,0 +1,10 @@
+[Unit]
+Description= Watches WordPress dumps @%i for Remote Sync
+Documentation= man:systemd.path
+
+[Path]
+PathChanged=/var/www/vhosts/%I/wp-content/db_backup/
+
+[Install]
+WantedBy=multi-user.target
+
