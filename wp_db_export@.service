@@ -1,0 +1,13 @@
+[Unit]
+Description=Dumps the WordPress database for %i
+
+[Service]
+Type=oneshot
+Environment=PUBLIC_PATH=httpdocs
+Environment=DB_DUMPS=wp-content/db_backup
+ExecStartPre=/bin/bash -c 'systemctl set-environment HOSTPATH_%i=`find /var/www/vhosts/ -maxdepth 1 -type d -iname %i*.*`/${PUBLIC_PATH}'
+ExecStartPre=/bin/bash -c 'systemctl set-environment FILENAME_%i=wordpress_%i_`date +%%FT%%H_%%M_%%S%%z`.sql'
+ExecStart=/bin/bash -c '/usr/local/bin/wp --allow-root --path="${HOSTPATH_%i}" db export "${HOSTPATH_%i}/${DB_DUMPS}/${FILENAME_%i}"'
+ExecStop=/bin/bash -c 'systemctl unset-environment FILENAME_%i'
+ExecStop=/bin/bash -c 'systemctl unset-environment HOSTPATH_%i'
+

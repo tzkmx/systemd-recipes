@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedules WordPress database dumps for %i
+
+[Timer]
+OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 22:04:00
+RandomizedDelaySec=240
+
+[Install]
+WantedBy=timers.target
+
