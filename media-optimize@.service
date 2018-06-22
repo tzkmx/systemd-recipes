@@ -1,0 +1,7 @@
+[Unit]
+Description=jpegoptim images %i uploads
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "find /var/www/vhosts/%i/httpdocs/wp-content/uploads/ -type f -iname '*.jpg' -daystart -mtime 0 -exec jpegoptim -s -p -P -t '{}' \; | grep -vE 'skipped|0k|0K'"
+
