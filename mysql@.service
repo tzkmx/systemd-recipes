@@ -1,0 +1,16 @@
+[Unit]
+Description=MySQL custom instance for "%i"
+After=syslog.target
+After=network.target
+
+[Service]
+User=mysql
+Group=mysql
+Type=simple
+
+ExecStart=/usr/bin/mysqld_safe --basedir=/usr --datadir=/var/lib/databases/mysql/%i/ --socket=/var/lib/mysql/mysql_%i.sock --port=${MYPORT} --pid-file=/var/run/mariadb/%i.pid --log-error=/var/log/mariadb/%i.log --symbolic-links=false
+TimeoutSec=300
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
