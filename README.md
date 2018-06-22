@@ -1,6 +1,12 @@
 # systemd-recipes
 An assorted selection of SystemD units to ease administration and traceability
 
+## Why systemd units?
+
+- [Why systemd is *great* for configuration management](https://medium.com/treehouse-engineering/why-systemd-is-great-for-configuration-management-cb3172e0a1d1)
+- [Introducción a systemd](https://github.com/mxabierto/hackea-el-sistema/wiki/Introducci%C3%B3n-a-systemd)
+- [Path Units Are Easy!](https://blog.andrewkeech.com/posts/170809_path.html)
+
 ## Examples of use
 
 ### wp_db_export@.
