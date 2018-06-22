@@ -1,0 +1,7 @@
+[Unit]
+Description= Insert media server names in VirtualHost %i
+Documentation= man:systemd.service
+
+[Service]
+Type=oneshot
+ExecStart=fix_media_vhosts.sh %i
