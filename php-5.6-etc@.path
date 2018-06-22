@@ -1,0 +1,9 @@
+[Unit]
+Description= Watches changes to PHP FPM Pool definition: %p/%i.
+Documentation= man:systemd.path
+
+[Path]
+PathChanged=/opt/plesk/%P/php-fpm.d/%i.conf
+
+[Install]
+WantedBy=multi-user.target
