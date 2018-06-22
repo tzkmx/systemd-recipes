@@ -4,8 +4,4 @@ Documentation= man:systemd.service
 
 [Service]
 Type=oneshot
-ExecStart=/root/fix_php_fpm_pool.sh /opt/plesk/%P/php-fpm.d/%i.conf %i
-
-# contents of /root/fix_php_fpm_pool.sh:
-# #! /bin/bash
-# sed -i -e '/catch_workers_output/d; /pm.max_children = 5/s/.*/pm.max_children = 10\npm.max_requests = 50/;' $1
+ExecStart=/bin/bash -c 'sed -i e "/catch_workers_output/d; /pm.max_children = 5/s/.*/pm.max_children = 10\npm.max_requests = 50/;" /opt/plesk/%P/php-fpm.d/%i.conf'
