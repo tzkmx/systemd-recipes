@@ -1,0 +1,9 @@
+[Unit]
+Description= Watches updates to LetsEncrypt certificates for: %i
+Documentation= man:systemd.path
+
+[Path]
+PathChanged=/etc/letsencrypt/archive/%i/
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description= Updates certificates for subscription %i
+Documentation= man:systemd.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/bash -c 'sleep 60 && plesk bin certificate --create "%i_`date +%%b%%y`" -domain %i -key-file /etc/letsencrypt/live/%i/privkey.pem -cert-file /etc/letsencrypt/live/%i/cert.pem -cacert-file /etc/letsencrypt/live/%i/chain.pem'
+ExecStartPre=-/bin/bash -c 'plesk bin certificate -ac "%i_`date +%%b%%y`" -domain %i -ip 74.208.72.243'
+ExecStartPre=-/bin/bash -c 'plesk bin certificate -ac "%i_`date +%%b%%y`" -domain pruebas.%i -ip 74.208.72.243'
+ExecStart=/bin/bash -c 'plesk bin subscription -u %i -certificate-name "%i_`date +%%b%%y`" -ssl true'
+ExecStartPost=-/bin/bash -c 'plesk bin subscription -u pruebas.%i -certificate-name "%i_`date +%%b%%y`" -ssl true'
+ExecStartPost=-/root/purge_garbage_certificates.sh %i
+ExecStartStop=/bin/bash -c 'cd /etc/ && git commit -am"Updated certificates for %i" && git push'
