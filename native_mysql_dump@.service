@@ -1,0 +1,12 @@
+[Unit]
+Description=Makes dump of database %i to backups path
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/backup-conf/%i
+ExecStartPre=/bin/bash -c 'systemctl set-environment FILENAME_%i="${OUTPUT_PATH}/`date +%%FT%%H_%%M_%%S%%z`.sql"'
+ExecStartPre=-/bin/bash -c 'mkdir -p "${OUTPUT_PATH}"'
+ExecStart=/bin/bash -c 'mysqldump -u "${DB_USER}" -p"${PASSDB}" -h 127.0.0.1 -P "${DB_PORT}" --skip-opt --add-drop-table --add-locks --create-options --disable-keys --extended-insert --lock-tables --no-create-db --dump-date -r "${FILENAME_%i}" -R "${DATABASE}"'
+ExecStartPost=/bin/bash -c 'chown -R "${SO_USER}:${SO_USER}" "${OUTPUT_PATH}"'
+ExecStartPost=-/bin/bash -c 'gzip -9 "${FILENAME_%i}"'
+

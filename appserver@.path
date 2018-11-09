@@ -1,0 +1,10 @@
+[Unit]
+Description= Watches DB dumps @%i for Remote Sync
+Documentation= man:systemd.path
+ 
+[Path] 
+PathChanged=/usr/appservers/production/%I/
+ 
+[Install]
+WantedBy=multi-user.target
+

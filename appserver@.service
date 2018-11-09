@@ -1,0 +1,14 @@
+[Unit]
+Description=Calls Rsync to backup host in %I
+
+[Service]
+Type=oneshot
+Environment=REMOTE_HOST=owner@yourname.dyndns-server.com
+Environment=REMOTE_BASEPATH=/
+Environment="SSH_SPEC=ssh -i /etc/backup-keys/ssh-%i-key"
+# Esperamos a que el proceso de volcado de la base de datos termine la compresión
+ExecStartPre=/bin/bash -c 'sleep 90'
+ExecStartPre=/bin/bash -c 'systemctl set-environment LOCALPATH=`echo %I | sed -e "s@/db_dumps@@;"`'
+ExecStart=/bin/bash -c 'rsync -e "${SSH_SPEC}" --exclude="demo" --exclude="*.zip" -rtvz --delete-during /usr/appservers/production/${LOCALPATH}/ ${REMOTE_HOST}:/'
+ExecStop=/bin/bash -c 'systemctl unset-environment LOCALPATH'
+

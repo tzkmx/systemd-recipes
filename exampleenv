@@ -1,0 +1,7 @@
+DATABASE=ownerapp_db
+OUTPUT_PATH=/usr/appservers/production/ownerapp/db_dumps
+PASSDB=NahUncomplicatedPass
+DB_PORT=3306
+DB_USER=owneruser_db
+SO_USER=owneruser
+
